@@ -32,7 +32,7 @@ Analyse 2D movies with the Cellpose model within Trackmate to connect cell measu
 **R script: 2 Unnest and transform Trackmate-Cellpose data MaSCOT-AI**
 <br> Rearranges the lists into a simple table so that each row represents a cell with an ID, sample label and measurements over time.
 
-**Excel file: ellipse_aspectratio_github_example**
+**Excel file: MaSCOT-AI_ellipse_aspectratio_analysis**
 <br> Example of data analysis including:
 * Extraction of cell tracks representative of percentiles
 * Running average calculation
