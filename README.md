@@ -4,6 +4,11 @@ Mammary cell shape computation over time with Trackmate-Cellpose
 This code was used to analyse intravital microscopy data of single mammary gland cells in mice in puberty, adulthood and pregnancy.
 <br> Associated publication: **Dawson, Milevskiy et al. Cell Reports, 2024, Hormone-responsive progenitors have a unique identity and exhibit high motility during mammary morphogenesis.**
 
+## Deposited model, data, training images and example analysis
+The MaSCOT-AI Cellpose model has been deposited on Zenodo (10.5281/zenodo.14503476)
+2D single channel maximum projections from 4D intravital movies have also been deposited on Zenodo, along with the extracted 5th time points used for training and the segmentation files.
+I will also upload a folder of example movies and the resulting data exported from Trackmate-Cellpose.
+
 ## Data acquisition
 Movies were acquired using an Olympus-FVMPRS system with a 25x objective and 1.5 zoom at 512x512 pixels and 2 µm z-step.
 Custom filters for Confetti fluorescent protein detection are described in the paper.
