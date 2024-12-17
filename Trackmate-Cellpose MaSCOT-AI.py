@@ -1,3 +1,27 @@
+# This code was built from work by Jean-Yves Tinevez, for which I am very grateful!
+# Sources include:
+# https://imagej.net/plugins/trackmate/scripting/scripting
+# https://imagej.net/plugins/trackmate/scripting/trackmate-detectors-trackers-keys
+# https://github.com/trackmate-sc/TrackMate-Cellpose
+
+# This script analyses a directory of tiff files (single channel 2D timelapses from mammary gland intravital imaging) using a detection model trained in Cellpose 2.2.2 to detect cell shape, track this over time and export shape measurements.
+
+# This script automates the processing of a directory of single channel 2D timelapse movies using the TrackMate plugin in Fiji/ImageJ. It performs the following tasks:
+# Configures directories for input images, saved tracks, models, and feature statistics.
+# Iterates through each file in the specified directory, loading them into ImageJ and running TrackMate with the specified model and configurations.
+# Logs the number of tracks found and outputs track and spot features (e.g., position, size, intensity) for each detected track and its associated spots.
+# Exports cells features including ellipse aspect ratio, solidity and circularity into CSV files.
+# Exports XML files, including both a detailed model file and a tracks-only file.
+
+# Directories need to be specified for images, export, Cellpose model, Cellpose python installation
+
+# Required software/packages
+# ImageJ 1.54h
+# Plugins: Trackmate 7.11.1
+# Miniconda
+# Cellpose Conda environment with Cellpose 2.2.2 installation (and additional packages listed here: https://pypi.org/project/cellpose/)
+# Conda pytorch install for GPU processing
+
 import sys
 
 from ij import IJ
@@ -35,12 +59,12 @@ sys.setdefaultencoding('utf-8')
 import os
 from java.io import File
 
-# Define the directory
-directory = "X:/Terminal end bud/Live/TEB movies for processing/Max projections/new"
-trackSaveDirectory = "X:/Terminal end bud/Live/TEB movies for processing/exportTracks"
-modelSaveDirectory = "X:/Terminal end bud/Live/TEB movies for processing/exportModels/new"
-tracksDirectory = "X:/Terminal end bud/Live/TEB movies for processing/trackStats/new"
-spotsDirectory = "X:/Terminal end bud/Live/TEB movies for processing/spotStats/new"
+# Define the directories
+directory = ".../Max projections/"
+trackSaveDirectory = ".../exportTracks"
+modelSaveDirectory = ".../exportModels"
+tracksDirectory = ".../trackStats"
+spotsDirectory = ".../spotStats"
 
 # Loop through each file in the directory
 for filename in os.listdir(directory):
@@ -62,8 +86,6 @@ for filename in os.listdir(directory):
         # Send all messages to ImageJ log window.
         model.setLogger(Logger.IJ_LOGGER)
 
-
-
         #------------------------
         # Prepare settings object
         #------------------------
@@ -75,9 +97,9 @@ for filename in os.listdir(directory):
         settings.detectorSettings = {
             'TARGET_CHANNEL' : 0,
             'OPTIONAL_CHANNEL_2' : 0,
-            'CELLPOSE_PYTHON_FILEPATH' : 'C:\Users\Public\Documents\Miniconda3\envs\cellpose\python.exe',
+            'CELLPOSE_PYTHON_FILEPATH' : '...\Miniconda3\envs\cellpose\python.exe',
             'CELLPOSE_MODEL' : PretrainedModel.CUSTOM,
-            'CELLPOSE_MODEL_FILEPATH' : 'X:\Terminal end bud\Live\TEB movies for processing\Max proj t5\models\CP_MaxProj10',
+            'CELLPOSE_MODEL_FILEPATH' : '...\CellposeModel',
             'CELL_DIAMETER' : 0.,
                    #0. will automatically determine diameter
             'USE_GPU' : True,
@@ -111,8 +133,7 @@ for filename in os.listdir(directory):
             'MEAN_INTENSITY_CH1' : 5.
         }
 
-        # Configure track filters - We want to get rid of the two immobile spots at
-        # the bottom right of the image. Track displacement must be above 10 pixels.
+        # Configure track filters - We only want tracks with 3 or more timepoints
 
         filter2 = FeatureFilter('TRACK_DURATION', 3, True)
         settings.addTrackFilter(filter2)
