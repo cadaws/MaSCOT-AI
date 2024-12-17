@@ -5,6 +5,7 @@
 # https://github.com/trackmate-sc/TrackMate-Cellpose
 
 # This script analyses a directory of tiff files (single channel 2D timelapses from mammary gland intravital imaging) using a detection model trained in Cellpose 2.2.2 to detect cell shape, track this over time and export shape measurements.
+# It is assumed that you already have a trained Cellpose model, either the MaSCOT-AI model or your own.
 
 # This script automates the processing of a directory of single channel 2D timelapse movies using the TrackMate plugin in Fiji/ImageJ. It performs the following tasks:
 # Configures directories for input images, saved tracks, models, and feature statistics.
